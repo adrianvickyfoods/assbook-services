@@ -35,3 +35,6 @@ lerna-debug.log*
 
 img/posts/*
 img/users/*
+
+!img/posts/.dontdelete
+!img/users/.dontdelete
