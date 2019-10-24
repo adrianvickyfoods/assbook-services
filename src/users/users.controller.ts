@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Param, ParseIntPipe, NotFoundException, Put, Body, ValidationPipe, UseGuards, Post, Delete } from '@nestjs/common';
+import { Controller, Get, Req, Param, ParseIntPipe, NotFoundException, Put, Body, ValidationPipe, UseGuards, Post, Delete, BadRequestException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -40,7 +40,11 @@ export class UsersController {
             await this.usersService.updateUserInfo(req.user.id, userDto);
             return { ok: true };
         } catch (e) {
-            throw new NotFoundException();
+            if (e.code === 'ER_DUP_ENTRY') {
+                throw new BadRequestException('This email is already registered');
+            } else {
+                throw new NotFoundException();
+            }
         }
     }
 
