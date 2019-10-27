@@ -16,7 +16,7 @@ export class CommentsService {
         return this.comRepo.findOne(commentId, {relations: ['user']});
     }
 
-    getComments(restId: number): Promise<Comment[]> {
-        return this.comRepo.find({where: {restaurant: restId}, relations: ['user']});
+    getComments(postId: number): Promise<Comment[]> {
+        return this.comRepo.find({where: {post: postId}, relations: ['user']});
     }
 }

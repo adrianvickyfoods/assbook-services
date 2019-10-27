@@ -53,7 +53,7 @@ export class PostsService {
     }
 
     async insertPost(post: InsertPostDto) {
-        if(post.lat && post.lng) {
+        if (post.lat && post.lng) {
             const img = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/' +
                 'pin-l+f00(' + post.lng + ',' + post.lat + ')/' +
                 post.lng + ',' + post.lat + ',15,0,0/800x400?access_token=' + this.mapboxToken;
@@ -67,7 +67,7 @@ export class PostsService {
 
     async deletePost(id: number) {
         const post = await this.postRepo.findOne(id);
-        if (post.image) {
+        if (post && post.image) {
             try {
                 await this.imageService.removeImage(post.image);
             } catch (e) {}
