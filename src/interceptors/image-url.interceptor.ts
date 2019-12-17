@@ -18,13 +18,17 @@ export class ImageUrlInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map(resp => {
         if (resp.post) {
-          resp.post.image = baseUrl + (resp.post as Post).image;
+          if (resp.post.image) {
+            resp.post.image = baseUrl + (resp.post as Post).image;
+          }
           if (resp.post.creator) {
             resp.post.creator.avatar = baseUrl + (resp.post.creator as User).avatar;
           }
         } else if (resp.posts) {
           resp.posts = resp.posts.map((p: Post) => {
-            p.image = baseUrl + p.image;
+            if (p.image) {
+              p.image = baseUrl + p.image;
+            }
             if (p.creator) {
               p.creator.avatar = baseUrl + (p.creator as User).avatar;
             }
