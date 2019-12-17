@@ -38,3 +38,5 @@ img/users/*
 
 !img/posts/.dontdelete
 !img/users/.dontdelete
+
+src/google-id.ts
