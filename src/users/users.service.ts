@@ -18,6 +18,10 @@ export class UsersService {
         return this.usersRepo.findOneOrFail(id);
     }
 
+    async getUserbyEmail(email: string): Promise<User> {
+        return this.usersRepo.findOne({email});
+    }
+
     async emailExists(email: string): Promise<boolean> {
         return (await this.usersRepo.findOne({email})) ? true : false;
     }

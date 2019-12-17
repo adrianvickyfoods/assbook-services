@@ -19,12 +19,4 @@ export class RegisterUserDto {
     @IsString()
     @IsNotEmpty()
     avatar: string;
-
-    @IsOptional()
-    @IsNumber()
-    readonly lat: number;
-
-    @IsOptional()
-    @IsNumber()
-    readonly lng: number;
 }

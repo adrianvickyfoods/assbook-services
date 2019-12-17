@@ -76,12 +76,12 @@ export class UsersController {
 
     @Get('me/followers')
     async getMyFollowers(@Req() req) {
-        return await this.usersService.getFollowers(req.user.id);
+        return await {users: this.usersService.getFollowers(req.user.id)};
     }
 
     @Get('me/following')
     async getMyFollowing(@Req() req) {
-        return await this.usersService.getFollowing(req.user.id);
+        return await {users: this.usersService.getFollowing(req.user.id)};
     }
 
     @Post('follow')

@@ -7,6 +7,9 @@ import { UsersModule } from './users/users.module';
 import { CommonsModule } from './commons/commons.module';
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ImageUrlInterceptor } from './interceptors/image-url.interceptor';
+import { ID_GOOGLE } from './google-id';
 
 @Module({
   imports: [
@@ -24,12 +27,16 @@ import { CommentsModule } from './comments/comments.module';
     PostsModule,
     UsersModule,
     CommonsModule,
-    AuthModule,
+    AuthModule.forRoot({googleId: ID_GOOGLE}),
     CommentsModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ImageUrlInterceptor,
+    }
   ],
 })
 export class AppModule {}

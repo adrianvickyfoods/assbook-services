@@ -10,11 +10,7 @@ export class LoginUserDto {
     @Transform(p => crypto.createHash('sha256').update(p).digest('base64'))
     readonly password: string;
 
-    @IsNumber()
+    @IsString()
     @IsOptional()
-    readonly lat;
-
-    @IsNumber()
-    @IsOptional()
-    readonly lng;
+    readonly oneSignalId: string;
 }
