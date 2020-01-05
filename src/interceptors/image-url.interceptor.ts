@@ -43,6 +43,16 @@ export class ImageUrlInterceptor implements NestInterceptor {
             u.avatar = baseUrl + u.avatar;
             return u;
           });
+        } else if (resp.followers) {
+          resp.followers = resp.followers.map((u: User) => {
+            u.avatar = baseUrl + u.avatar;
+            return u;
+          });
+        } else if (resp.following) {
+          resp.following = resp.following.map((u: User) => {
+            u.avatar = baseUrl + u.avatar;
+            return u;
+          });
         } else if (resp.comment) {
           resp.comment.user.avatar = baseUrl + resp.comment.user.avatar;
         } else if (resp.comments) {

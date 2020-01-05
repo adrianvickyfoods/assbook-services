@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Post, ValidationPipe, Param, ParseIntPipe, Delete, HttpException, NotFoundException, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Body, Post, ValidationPipe, Param, ParseIntPipe, Delete, HttpException, NotFoundException, UseGuards, Req, Put } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { InsertPostDto } from './dto/insert-post.dto';
 import { UsersService } from '../users/users.service';
@@ -22,6 +22,18 @@ export class PostsController {
         return {posts};
     }
 
+    @Get('mine')
+    async getPostsMine(@Req() req) {
+        const posts = await this.postsService.getPostUser(req.user.id, req.user.id);
+        return {posts};
+    }
+
+    @Get('user/:id')
+    async getPostsUser(@Param('id', ParseIntPipe) userId: number, @Req() req) {
+        const posts = await this.postsService.getPostUser(userId, req.user.id);
+        return {posts};
+    }
+
     @Get(':id')
     async getPost(@Param('id', ParseIntPipe) postId: number, @Req() req) {
         try {
@@ -40,6 +52,20 @@ export class PostsController {
         postDto.creator = req.user;
         const post = await this.postsService.insertPost(postDto);
         return {post};
+    }
+
+    @Put(':id')
+    async updatePost(
+        @Param('id', ParseIntPipe) postId: number,
+        @Body(new ValidationPipe({ transform: true, whitelist: true})) postDto: InsertPostDto,
+        @Req() req,
+    ) {
+        try {
+            const post = await this.postsService.updatePost(postId, postDto, req.user.id);
+            return {post};
+        } catch (e) {
+            throw new NotFoundException('Post not found');
+        }
     }
 
     @Delete(':id')

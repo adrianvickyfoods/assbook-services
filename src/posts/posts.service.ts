@@ -65,6 +65,25 @@ export class PostsService {
         return p;
     }
 
+    async updatePost(id: number, post: InsertPostDto, loggedId?: number) {
+        if (post.lat && post.lng) {
+            const img = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/' +
+                'pin-l+f00(' + post.lng + ',' + post.lat + ')/' +
+                post.lng + ',' + post.lat + ',15,0,0/800x400?access_token=' + this.mapboxToken;
+            post.image = await this.imageService.downloadImage('posts', img);
+        } else if (!post.image.includes('posts')) {
+            post.image = await this.imageService.saveImage('posts', post.image);
+            post.lat = null;
+            post.lng = null;
+            post.place = null;
+        } else {
+            delete post.image;
+        }
+
+        await this.postRepo.update(id, post);
+        return await this.getPost(id, loggedId);
+    }
+
     async deletePost(id: number) {
         const post = await this.postRepo.findOne(id);
         if (post && post.image) {

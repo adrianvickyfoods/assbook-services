@@ -76,12 +76,12 @@ export class UsersController {
 
     @Get('me/followers')
     async getMyFollowers(@Req() req) {
-        return await {users: this.usersService.getFollowers(req.user.id)};
+        return await this.usersService.getFollowers(req.user.id);
     }
 
     @Get('me/following')
     async getMyFollowing(@Req() req) {
-        return await {users: this.usersService.getFollowing(req.user.id)};
+        return await this.usersService.getFollowing(req.user.id);
     }
 
     @Post('follow')
@@ -89,7 +89,11 @@ export class UsersController {
         @Req() req,
         @Body(new ValidationPipe({ transform: true, whitelist: true })) followDto: FollowUserDto,
     ) {
-        return await this.usersService.follow(followDto.id, req.user);
+        try {
+            return await this.usersService.follow(followDto.id, req.user);
+        } catch (e) {
+            throw new NotFoundException();
+        }
     }
 
     @Delete('follow/:id')
