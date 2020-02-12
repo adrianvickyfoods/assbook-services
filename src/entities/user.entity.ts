@@ -20,8 +20,8 @@ export class User {
     @Column({length: 100, default: 'img/profile.jpg'})
     avatar: string;
 
-    @Column({length: 150, nullable: true})
-    oneSignalId: string;
+    @Column({length: 250, nullable: true})
+    firebaseToken: string;
 
     @OneToMany(type => Post, post => post.creator, {cascade: ['insert']})
     posts: Post[];

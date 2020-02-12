@@ -8,5 +8,5 @@ export class LoginTokenDto {
 
     @IsString()
     @IsOptional()
-    readonly oneSignalId: string;
+    readonly firebaseToken: string;
 }

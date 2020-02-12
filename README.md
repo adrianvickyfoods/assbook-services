@@ -61,6 +61,10 @@ $ npm install
 
 Edita el archivo **src/google-id.ts** para poner ahí tu id de Google o no funcionará el login con dicho proveedor.
 
+### Configurando notificaciones Push
+
+Descarga el archivo de cuenta de servicio (Configuración de proyecto -> cuentas de servicio) dentro de la carpeta firebase y renombralo a **serviceAccountKey.json**. Tiene que ser el mismo proyecto que uses en la aplicación cliente donde habrás descargado el archivo *google-services.json*. Los servicios están configurados para mandar una notificación push cuando alguien comente en un post, al creador del mismo.
+
 ### Probando los servicios
 
 Ejecutamos los servicios web con el siguiente script:

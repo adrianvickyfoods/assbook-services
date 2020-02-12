@@ -44,6 +44,10 @@ export class AuthService {
 
     async login(userDto: LoginUserDto) {
         const user = await this.userRepo.findOneOrFail({email: userDto.email, password: userDto.password});
+        if (userDto.firebaseToken) {
+            user.firebaseToken = userDto.firebaseToken;
+            await this.userRepo.save(user);
+        }
         return this.createToken(user);
     }
 
@@ -66,10 +70,12 @@ export class AuthService {
             await this.userRepo.save(user2);
             user = await this.usersService.getUserbyEmail(email);
         }
-        if (tokenDto.oneSignalId) {
-            user.oneSignalId = tokenDto.oneSignalId;
-            await this.userRepo.update(user.id, {oneSignalId: tokenDto.oneSignalId});
+
+        if (tokenDto.firebaseToken) {
+            user.firebaseToken = tokenDto.firebaseToken;
+            await this.userRepo.save(user);
         }
+
         return this.createToken(user as User);
     }
 
@@ -105,9 +111,10 @@ export class AuthService {
             };
             user = await this.userRepo.save(user);
         }
-        if (tokenDto.oneSignalId) {
-            user.oneSignalId = tokenDto.oneSignalId;
-            await this.userRepo.update(user.id, {oneSignalId: tokenDto.oneSignalId});
+
+        if (tokenDto.firebaseToken) {
+            user.firebaseToken = tokenDto.firebaseToken;
+            await this.userRepo.save(user);
         }
 
         return this.createToken(user as User);
